@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
 
 /**
  * Write a description of class Spaceship here.
@@ -13,7 +14,9 @@ public class Spaceship extends Actor
     private boolean isDestroyed = false;
     private boolean isDead = false;
     
-    
+
+    //images
+    private String spaceshipImage, astronautImage;
     //control buttons
     private String buttonToShoot, buttonToMoveLeft, buttonToMoveRight;
     
@@ -22,7 +25,8 @@ public class Spaceship extends Actor
         this.buttonToShoot = buttonToShoot;
         this.buttonToMoveLeft = buttonToMoveLeft;
         this.buttonToMoveRight = buttonToMoveRight;
-        
+        this.spaceshipImage = spaceshipImage;
+        this.astronautImage = astronautImage;
         
     }
     
@@ -35,6 +39,24 @@ public class Spaceship extends Actor
     
     public void updateDegree(int degree){
         this.degree += degree;
+    }
+    
+    public void shoot(){
+        
+        if(!isDestroyed && !isDead ){
+        
+            if(Greenfoot.isKeyDown(buttonToShoot) && !shotBlocked){
+                
+                int imageSize = getImage().getWidth();                
+                Munition mun = new Munition(getX(), getY(), degree, imageSize);
+                getWorld().addObject(mun,mun.getInitialX(), mun.getInitialY());
+                shotBlocked = true;
+            }else if(!Greenfoot.isKeyDown(buttonToShoot) && shotBlocked){
+                shotBlocked = false;
+            }
+            
+        }
+        
     }
     
     public void changeDirection(){
@@ -53,11 +75,44 @@ public class Spaceship extends Actor
         
     }
     
+    public boolean checkIfShotYou(){
+        if(!isDead){
+            List obstacles = getNeighbours(45, true, Munition.class);
+            if(obstacles.size() > 0){
+                
+                obstacles.forEach((obstacle) ->{
+                    
+                    getWorld().removeObject((Actor) obstacle);
+                });
+                destroySpaceship();
+                return true;
+                
+            }
+            
+        }
+        return false;
+    }
+    
+    public void destroySpaceship(){
+        
+        if(!isDestroyed && !isDead ){
+            isDestroyed = true;
+            setImage(astronautImage);
+     
+        }else if(!isDead){
+            isDead = true;
+            //game over
+        }
+        
+    }
+    
     
         public void act()
         {
             moveShip();
             changeDirection();
+            shoot();
+            checkIfShotYou();
 
         }
 }
