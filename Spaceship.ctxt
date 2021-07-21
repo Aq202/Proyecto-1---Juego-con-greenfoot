@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Spaceship
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Spaceship\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=buttonToShoot\ buttonToMoveLeft\ buttonToMoveRight\ spaceshipImage\ astronautImage
+comment1.target=Spaceship(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment2.params=
+comment2.target=void\ moveShip()
+comment3.params=degree
+comment3.target=void\ updateDegree(int)
+comment4.params=
+comment4.target=void\ changeDirection()
+comment5.params=
+comment5.target=void\ act()
+numComments=6
