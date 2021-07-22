@@ -14,7 +14,9 @@ public class Spaceship extends Actor
     private boolean isDestroyed = false;
     private boolean isDead = false;
     
-
+    private int defaultBackToSpaceshipTimer = 600;
+    private int backToSpaceshipTimer = defaultBackToSpaceshipTimer;
+    
     //images
     private String spaceshipImage, astronautImage;
     //control buttons
@@ -71,6 +73,9 @@ public class Spaceship extends Actor
             }
         }
         
+        if(isDestroyed){
+            astronautControls();  
+        }
         
         
     }
@@ -106,13 +111,43 @@ public class Spaceship extends Actor
         
     }
     
-    
-        public void act()
-        {
-            moveShip();
-            changeDirection();
-            shoot();
-            checkIfShotYou();
-
+    public void astronautControls(){
+        if(isDestroyed ){
+            
+            //mover en circulos al astronauta, incluso si esta muerto
+            if((!Greenfoot.isKeyDown(buttonToMoveLeft) && !Greenfoot.isKeyDown(buttonToMoveRight)) || isDead){
+                turn(1);
+                updateDegree(1); 
+                
+            }
+            if(Greenfoot.isKeyDown(buttonToShoot) && !isDead){ //avanzar
+                move(6);
+            }
         }
+    }
+    
+    public void backToSpaceship(){
+        
+        if(isDestroyed && !isDead){
+            if(backToSpaceshipTimer == 0){
+                
+
+                setImage(spaceshipImage);                
+ 
+                backToSpaceshipTimer = defaultBackToSpaceshipTimer;
+                isDestroyed = false;
+                
+            }
+            backToSpaceshipTimer--;
+        }
+    }
+    
+    public void act(){
+        moveShip();
+        changeDirection();
+        shoot();
+        checkIfShotYou();
+        backToSpaceship();
+
+    }
 }
