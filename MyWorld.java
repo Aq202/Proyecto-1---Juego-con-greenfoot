@@ -9,13 +9,35 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class MyWorld extends World
 {
 
-    /**
-     * Constructor for objects of class MyWorld.
-     * 
-     */
+    private Player1 player1;
+    private Player2 player2;
+    private boolean initialize = false;
+    
     public MyWorld()
     {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(600, 400, 1); 
+        
+        super(800, 600, 1); 
+    }
+    
+    public void act(){
+        
+        if(!initialize){
+            initialize = true;
+            startGame(); 
+        }
+        
+    }
+    
+    public void startGame(){
+        
+        
+        //create players
+        player1 = new Player1();
+        player2 = new Player2();
+        
+        addObject(player1, 0,0);
+        addObject(player2, 0, 0);
+        
+        
     }
 }
