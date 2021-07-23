@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=Munition
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ Munition\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=xPos\ yPos\ degree\ shipImageLarge
-comment1.target=Munition(int,\ int,\ int,\ int)
+comment1.params=xPos\ yPos\ degree\ shipImageLarge\ sender
+comment1.target=Munition(int,\ int,\ int,\ int,\ java.lang.String)
 comment2.params=
 comment2.target=void\ act()
 comment3.params=
@@ -10,5 +10,9 @@ comment3.target=int\ getInitialX()
 comment4.params=
 comment4.target=int\ getInitialY()
 comment5.params=
-comment5.target=void\ deleteWhenExitsScreen()
-numComments=6
+comment5.target=void\ remove()
+comment6.params=
+comment6.target=void\ deleteWhenExitsScreen()
+comment7.params=
+comment7.target=java.lang.String\ getSender()
+numComments=8

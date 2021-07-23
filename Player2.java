@@ -12,11 +12,17 @@ public class Player2 extends Player
     private boolean initialized = false;
     private BlueSpaceship nave;
     
+    private final int defaultSpaceshipCreationTimer = 50;
+    private  int spaceshipCreationTimer = -1;
+    
+    private MunitionIcon[] munitionItems = new MunitionIcon[3];
+    private int currentShotsAvailable = 3;
+    
     public void act(){
-        
-        
+    
         initialize();
-        verifyIfIsDead();        
+        verifyIfIsDead();   
+        updateShotsIcons();
         
     }
     
@@ -26,7 +32,7 @@ public class Player2 extends Player
             initialized = true;
             addLifeItems();
             createNewSpaceship();
-            
+            addShotsIcons();
         }
     }
     
@@ -75,16 +81,57 @@ public class Player2 extends Player
     private void verifyIfIsDead(){
         if(nave != null){
             if(nave.isDead()){
-                System.out.println("MURIO VIDA -1");
                 if(kill()){ //si se restó una vida
                     removeHeart();
+                    
+                    //habilitar retraso de regeneración
+                    spaceshipCreationTimer = defaultSpaceshipCreationTimer;
                 }
                 
                 nave = null;
             }
                 
         }else{
-            createNewSpaceship();
+            if(spaceshipCreationTimer >= 0){
+                if(spaceshipCreationTimer == 0){
+                    createNewSpaceship();
+                }
+                spaceshipCreationTimer--;
+            }
+        }
+    }
+    
+    private void addShotsIcons(){
+        
+        munitionItems[0] = new MunitionIcon();
+        munitionItems[1] = new MunitionIcon();
+        munitionItems[2] = new MunitionIcon();
+        
+        int imageWidth = liveItems[0].getImage().getWidth() / 2;
+        int initialYPos = liveItems[0].getY();
+        int initialXPos = liveItems[2].getX() - imageWidth - 15;
+        int gap = munitionItems[0].getImage().getHeight();
+        
+        getWorld().addObject(munitionItems[0], initialXPos, initialYPos - gap);
+        getWorld().addObject(munitionItems[1], initialXPos, initialYPos);
+        getWorld().addObject(munitionItems[2], initialXPos, initialYPos + gap);
+ 
+    }
+    
+    private void updateShotsIcons(){
+        
+        if(nave != null){
+            if(nave.getShotsAvailable() != currentShotsAvailable){
+                currentShotsAvailable = nave.getShotsAvailable();
+                //agregar iconos
+                for(int i = 0; i < nave.getShotsAvailable(); i++){
+                    munitionItems[i].getImage().setTransparency(255);
+                }
+                //quitar iconos
+                for(int i = 3; i > nave.getShotsAvailable(); i--){
+                    munitionItems[i - 1].getImage().setTransparency(0);
+                }
+            }
         }
     }
 }

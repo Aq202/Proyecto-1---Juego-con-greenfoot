@@ -13,6 +13,7 @@ public class Spaceship extends Actor
     private boolean shotBlocked = false;
     private boolean isDestroyed = false;
     private boolean isDead = false;
+    private String playerCode;
     
     private int defaultBackToSpaceshipTimer = 600;
     private int backToSpaceshipTimer = defaultBackToSpaceshipTimer;
@@ -29,14 +30,19 @@ public class Spaceship extends Actor
     private final int defaultAnimationTimer = 25;
     private int animationTimer = defaultAnimationTimer + 10;
     private boolean reduceImage = true;
+    //shot cooldown
+    private int shotsAvailable = 3;
+    private int shotsTimer = 0;
+    private int shotsCooldown = 50;
     
     
-    public Spaceship(String buttonToShoot, String buttonToMoveLeft, String buttonToMoveRight, String spaceshipImage, String astronautImage){
+    public Spaceship(String playerCode, String buttonToShoot, String buttonToMoveLeft, String buttonToMoveRight, String spaceshipImage, String astronautImage){
         this.buttonToShoot = buttonToShoot;
         this.buttonToMoveLeft = buttonToMoveLeft;
         this.buttonToMoveRight = buttonToMoveRight;
         this.spaceshipImage = spaceshipImage;
         this.astronautImage = astronautImage;
+        this.playerCode = playerCode;
         
     }
     
@@ -51,22 +57,40 @@ public class Spaceship extends Actor
         this.degree += degree;
     }
     
+    
     public void shoot(){ 
         
-        if(!isDestroyed && !isDead  && !hasShield){
+        if(!isDestroyed && !isDead  && !hasShield && (shotsAvailable > 0)){
         
             if(Greenfoot.isKeyDown(buttonToShoot) && !shotBlocked){
                 
                 int imageSize = getImage().getWidth();                
-                Munition mun = new Munition(getX(), getY(), degree, imageSize);
+                Munition mun = new Munition(getX(), getY(), degree, imageSize, playerCode);
                 getWorld().addObject(mun,mun.getInitialX(), mun.getInitialY());
                 shotBlocked = true;
+                
+                //restar municiones y sumar al cooldown
+                shotsAvailable--;
+                shotsTimer += shotsCooldown;
+                
             }else if(!Greenfoot.isKeyDown(buttonToShoot) && shotBlocked){
                 shotBlocked = false;
             }
             
         }
         
+    }
+    
+    private void resetShots(){
+        if(shotsTimer > 0){
+            
+
+            //-1 para evitar ejecutarse al principio
+            if(((shotsTimer - 1) % shotsCooldown) == 0){
+                shotsAvailable++;
+            }
+            shotsTimer--;
+        }
     }
     
     public void changeDirection(){
@@ -88,22 +112,29 @@ public class Spaceship extends Actor
         
     }
     
-    public boolean checkIfShotYou(){
+    public void checkIfShotYou(){
         if(!isDead){
             List obstacles = getNeighbours(45, true, Munition.class);
             if(obstacles.size() > 0){
+                int numOfObstacles = 0;
                 
-                obstacles.forEach((obstacle) ->{
+                for(int i = 0; i < obstacles.size(); i++){
                     
-                    getWorld().removeObject((Actor) obstacle);
-                });
-                destroySpaceship();
-                return true;
+                    Munition mun = (Munition)obstacles.get(i);
+                    
+                    if(mun.getSender() != playerCode){
+                        mun.remove();
+                        numOfObstacles++;
+                    }                    
+                }
+                
+                if(numOfObstacles > 0){
+                    destroySpaceship();
+                }
                 
             }
             
         }
-        return false;
     }
     
     public void destroySpaceship(){
@@ -217,6 +248,10 @@ public class Spaceship extends Actor
         return isDead;
     }
     
+    public int getShotsAvailable(){
+        return shotsAvailable;
+    }
+    
     public void act(){
         moveShip();
         changeDirection();
@@ -224,6 +259,6 @@ public class Spaceship extends Actor
         checkIfShotYou();
         backToSpaceship();
         activateShield();
-
+        resetShots();
     }
 }

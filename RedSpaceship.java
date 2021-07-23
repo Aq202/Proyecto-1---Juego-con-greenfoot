@@ -8,8 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class RedSpaceship extends Spaceship
 {
+
     public RedSpaceship(){
-        super("space","left","right", "spaceShip1.png", "astronaut1.png");
+        
+        super("NAVEROJA","up","left","right", "spaceShip1.png", "astronaut1.png");
 
     }
 }

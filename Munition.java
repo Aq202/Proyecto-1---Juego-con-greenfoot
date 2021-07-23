@@ -10,13 +10,15 @@ public class Munition extends Actor
 {
     private int xPos, yPos, degree, shipImageLarge;
     private final int munitionImageLarge = 50;
+    private String sender;
     
     
-    public Munition(int xPos, int yPos,int degree, int shipImageLarge){
+    public Munition(int xPos, int yPos,int degree, int shipImageLarge, String sender){
         this.xPos = xPos;
         this.yPos = yPos;
         this.degree = degree;
         this.shipImageLarge = shipImageLarge;
+        this.sender = sender;
         
         turn(degree);
     }
@@ -44,10 +46,18 @@ public class Munition extends Actor
         return yFinalPos;
     }
     
+    public void remove(){
+        getWorld().removeObject(this);
+    }
+    
     private void deleteWhenExitsScreen(){
         if(isAtEdge()){ //si toca el borde del mundo elimianrlo
             
-            getWorld().removeObject(this);
+            remove();
         }
+    }
+    
+    public String getSender(){
+        return sender;
     }
 }

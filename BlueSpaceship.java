@@ -10,7 +10,7 @@ public class BlueSpaceship extends Spaceship
 {
     
     public BlueSpaceship(){
-        super("w","a","d", "spaceShip2.png", "astronaut2.png");
+        super("NAVEAZUL","w","a","d", "spaceShip2.png", "astronaut2.png");
     }
     
     
