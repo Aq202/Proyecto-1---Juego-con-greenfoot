@@ -36,4 +36,16 @@ public class Player extends Actor
     public int getLives(){
         return livesCount;
     }
+    
+    public void gameOverMessage(int winnerPlayerNumber){
+ 
+        int worldWidth = getWorld().getWidth() / 2;
+        int worldHeight = getWorld().getHeight() / 2;
+        
+        GameOver message = new GameOver();
+        
+        message.setImage("gameOver"+winnerPlayerNumber+".png");
+        
+        getWorld().addObject(message, worldWidth, worldHeight);
+    }
 }

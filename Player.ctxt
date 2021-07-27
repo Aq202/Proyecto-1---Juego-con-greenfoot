@@ -9,4 +9,6 @@ comment3.params=
 comment3.target=boolean\ kill()
 comment4.params=
 comment4.target=int\ getLives()
-numComments=5
+comment5.params=winnerPlayerNumber
+comment5.target=void\ gameOverMessage(int)
+numComments=6

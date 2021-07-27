@@ -15,7 +15,7 @@ public class Spaceship extends Actor
     private boolean isDead = false;
     private String playerCode;
     
-    private int defaultBackToSpaceshipTimer = 600;
+    private int defaultBackToSpaceshipTimer = 700;
     private int backToSpaceshipTimer = defaultBackToSpaceshipTimer;
     
     //shield

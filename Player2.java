@@ -10,7 +10,7 @@ public class Player2 extends Player
 {
     private LiveItem[] liveItems = new LiveItem[3];
     private boolean initialized = false;
-    private BlueSpaceship nave;
+    private RedSpaceship nave;
     
     private final int defaultSpaceshipCreationTimer = 50;
     private  int spaceshipCreationTimer = -1;
@@ -56,7 +56,7 @@ public class Player2 extends Player
     
     private void createNewSpaceship(){
         if(getLives() > 0){
-            nave = new BlueSpaceship();
+            nave = new RedSpaceship();
             
             int startYPos = (getWorld().getHeight() / 6) * 4;
             int startXPos = getWorld().getWidth() - nave.getImage().getWidth();
@@ -69,6 +69,9 @@ public class Player2 extends Player
             nave.turnOnShield();
             
             getWorld().addObject(nave,  startXPos, startYPos);
+            
+        }else{
+            gameOverMessage(1);
         }
     }
     
