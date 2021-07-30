@@ -46,7 +46,7 @@ public class MyWorld extends World
             asteroidsTimer();
         }
         
-        if(gameStarted){
+        if(gameStarted || !rematchOption){
             verifyIfGameEnded();
         }
         
@@ -110,23 +110,25 @@ public class MyWorld extends World
     }
     
     private void verifyIfGameEnded(){
-        if((player1.isWinner() || player2.isWinner()) && !rematchOption ){
-            
-            //al recien perder
-            if(rematchTimer == defaultRematchTimer){
-                player1.endSpaceshipActivity();
-                player2.endSpaceshipActivity();
-                gameStarted = false;
-            }
-            
-            if(rematchTimer <= 0){
-                removeObjects(getObjects(GameOver.class)); //remover gameOver
-                addRematchOption();
-                rematchTimer = defaultRematchTimer;
-                rematchOption = true;
+        if(player1 != null && player2 != null){
+            if((player1.isWinner() || player2.isWinner()) && !rematchOption ){
                 
-            }else{
-                rematchTimer--;
+                //al recien perder
+                if(rematchTimer == defaultRematchTimer){
+                    player1.endSpaceshipActivity();
+                    player2.endSpaceshipActivity();
+                    gameStarted = false;
+                }
+                
+                if(rematchTimer <= 0){
+                    removeObjects(getObjects(GameOver.class)); //remover gameOver
+                    addRematchOption();
+                    rematchTimer = defaultRematchTimer;
+                    rematchOption = true;
+                    
+                }else{
+                    rematchTimer--;
+                }
             }
         }
             

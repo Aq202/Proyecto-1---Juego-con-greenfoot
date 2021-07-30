@@ -272,7 +272,7 @@ public class Spaceship extends Actor
         if(getSpaceshipState()){
             List lifes = getNeighbours(45, true, ExtraLife.class);
                 if(lifes.size() > 0){
-                    System.out.println("3");
+                 
                     for(int i = 0; i < lifes.size(); i++){
                         
                         ExtraLife life = (ExtraLife)lifes.get(i);
