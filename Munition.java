@@ -21,6 +21,10 @@ public class Munition extends Actor
         this.sender = sender;
         
         turn(degree);
+        
+        //efecto de sonido
+        GreenfootSound music = new GreenfootSound("shoot.mp3");
+        music.play();
     }
     
     

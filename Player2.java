@@ -137,4 +137,11 @@ public class Player2 extends Player
             }
         }
     }
+    
+    public void endSpaceshipActivity(){
+        if(nave != null){
+            nave.endSpaceshipActivity();  
+        }
+        
+    }
 }

@@ -11,4 +11,6 @@ comment4.params=
 comment4.target=int\ getLives()
 comment5.params=winnerPlayerNumber
 comment5.target=void\ gameOverMessage(int)
-numComments=6
+comment6.params=
+comment6.target=boolean\ isWinner()
+numComments=7

@@ -9,4 +9,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class GameOver extends Actor
 {
     
+    public GameOver(){
+        GreenfootSound music = new GreenfootSound("gameOver.mp3");
+        music.play();
+    }
+    
 }

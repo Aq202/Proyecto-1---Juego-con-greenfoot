@@ -9,6 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Player extends Actor
 {
     private int livesCount = 3;
+    private boolean isWinner = false;
     
     
     public void act()
@@ -47,5 +48,12 @@ public class Player extends Actor
         message.setImage("gameOver"+winnerPlayerNumber+".png");
         
         getWorld().addObject(message, worldWidth, worldHeight);
+        
+        isWinner = true;
+        
+    }
+    
+    public boolean isWinner(){
+        return isWinner;
     }
 }

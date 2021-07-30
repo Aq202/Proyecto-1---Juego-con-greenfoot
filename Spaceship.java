@@ -14,6 +14,7 @@ public class Spaceship extends Actor
     private boolean isDestroyed = false;
     private boolean isDead = false;
     private String playerCode;
+    private boolean blockSpaceshipActivity = false;
     
     private int defaultBackToSpaceshipTimer = 700;
     private int backToSpaceshipTimer = defaultBackToSpaceshipTimer;
@@ -47,7 +48,7 @@ public class Spaceship extends Actor
     }
     
         public void moveShip(){
-        if(!isDestroyed && !isDead){
+        if(!isDestroyed && !isDead && !blockSpaceshipActivity){
           move(4);  
         }
     
@@ -60,7 +61,7 @@ public class Spaceship extends Actor
     
     public void shoot(){ 
         
-        if(!isDestroyed && !isDead  && !hasShield && (shotsAvailable > 0)){
+        if(!isDestroyed && !isDead  && !hasShield && (shotsAvailable > 0) && !blockSpaceshipActivity){
         
             if(Greenfoot.isKeyDown(buttonToShoot) && !shotBlocked){
                 
@@ -95,7 +96,7 @@ public class Spaceship extends Actor
     
     public void changeDirection(){
         
-        if(!isDead){
+        if(!isDead && !blockSpaceshipActivity){
             if(Greenfoot.isKeyDown(buttonToMoveLeft)){
                 turn(-3);
                 updateDegree(-3);
@@ -113,7 +114,7 @@ public class Spaceship extends Actor
     }
     
     public void checkIfShotYou(){
-        if(!isDead){
+        if(!isDead && !blockSpaceshipActivity){
             List obstacles = getNeighbours(45, true, Munition.class);
             if(obstacles.size() > 0){
                 int numOfObstacles = 0;
@@ -143,15 +144,22 @@ public class Spaceship extends Actor
             isDestroyed = true;
             setImage(astronautImage);
             turnOnShield(); //activar escudo
+            
+            //dead sound
+            GreenfootSound music = new GreenfootSound("dead.mp3");
+            music.play();
         }else if(!isDead && !hasShield){
             isDead = true;
-            //game over
+            
+            //dead sound
+            GreenfootSound music = new GreenfootSound("dead.mp3");
+            music.play();
         }
         
     }
     
     public void astronautControls(){
-        if(isDestroyed ){
+        if(isDestroyed && !blockSpaceshipActivity){
             
             //mover en circulos al astronauta, incluso si esta muerto
             if((!Greenfoot.isKeyDown(buttonToMoveLeft) && !Greenfoot.isKeyDown(buttonToMoveRight)) || isDead){
@@ -187,7 +195,7 @@ public class Spaceship extends Actor
     
     public void backToSpaceship(){
         
-        if(isDestroyed && !isDead){
+        if(isDestroyed && !isDead && !blockSpaceshipActivity){
             if(backToSpaceshipTimer == 0){
                 
 
@@ -250,6 +258,10 @@ public class Spaceship extends Actor
     
     public int getShotsAvailable(){
         return shotsAvailable;
+    }
+    
+    public void endSpaceshipActivity(){
+        blockSpaceshipActivity = true;
     }
     
     public void act(){
