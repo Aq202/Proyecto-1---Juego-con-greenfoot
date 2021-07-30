@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.Random;
 
 /**
  * Write a description of class MyWorld here.
@@ -14,7 +15,7 @@ public class MyWorld extends World
     private boolean initialize = false;
     private boolean gameStarted = false;
     
-    private final int defaultRematchTimer = 200;
+    private final int defaultRematchTimer = 300;
     private int rematchTimer = defaultRematchTimer;
     
     //enter options
@@ -22,6 +23,11 @@ public class MyWorld extends World
     private boolean rematchOption = false;
     private boolean enterBlocked = false;
     private Rematch rematch = null;
+    
+    //asteroids timer
+    private final int defaultAsteroidsTimer = 2500;
+    private int asteroidsTimer = defaultAsteroidsTimer;
+    private final int maxAsteroids = 6;
     
     public MyWorld()
     {    
@@ -37,6 +43,7 @@ public class MyWorld extends World
             playBackgroundMusic();
         }else{
             enterActions();
+            asteroidsTimer();
         }
         
         if(gameStarted){
@@ -59,6 +66,9 @@ public class MyWorld extends World
     public void startGame(){
         
         gameStarted = true;
+        //add asteroids
+        Random r = new Random();
+        addAsteroids(1 + r.nextInt(maxAsteroids));
         //create players
         player1 = new Player1();
         player2 = new Player2();
@@ -106,6 +116,7 @@ public class MyWorld extends World
             if(rematchTimer == defaultRematchTimer){
                 player1.endSpaceshipActivity();
                 player2.endSpaceshipActivity();
+                gameStarted = false;
             }
             
             if(rematchTimer <= 0){
@@ -113,7 +124,7 @@ public class MyWorld extends World
                 addRematchOption();
                 rematchTimer = defaultRematchTimer;
                 rematchOption = true;
-                gameStarted = false;
+                
             }else{
                 rematchTimer--;
             }
@@ -130,8 +141,48 @@ public class MyWorld extends World
     }
     
     private void playBackgroundMusic(){
-        GreenfootSound music = new GreenfootSound("temaPrincipal.mp3");
+        GreenfootSound music = new GreenfootSound("backgroundMusic.mp3");
         music.playLoop();
         music.setVolume(50);
+    }
+    
+    public void addAsteroids(int num){
+        
+        int border = 100;
+        int xMax = getWidth() - 2 * border;
+        int yMax = getHeight() - 2 * border;
+        Random r = new Random();
+        
+        for(int i = 0; i < num; i++){
+            
+            addObject(new Asteroid(), border + r.nextInt(xMax), border + r.nextInt(yMax));
+        }
+        
+    }
+    
+    public void asteroidsTimer(){
+        
+        if(gameStarted){
+            if(asteroidsTimer <= 0){
+                asteroidsTimer = defaultAsteroidsTimer;
+                int numOfAsteroids = getObjects(Asteroid.class).size();
+                
+                if(numOfAsteroids < maxAsteroids){
+     
+                    Random r = new Random();
+                    int numOfAsteroidToAdd = 1 + r.nextInt(maxAsteroids - numOfAsteroids);
+                    if(numOfAsteroidToAdd > 0){
+                       addAsteroids(numOfAsteroidToAdd); 
+                    }
+                    
+                }
+            }else{
+                asteroidsTimer--;
+            }
+        }else{
+            if(asteroidsTimer != defaultAsteroidsTimer){
+                asteroidsTimer = defaultAsteroidsTimer;
+            }
+        }
     }
 }

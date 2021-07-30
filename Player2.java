@@ -23,6 +23,7 @@ public class Player2 extends Player
         initialize();
         verifyIfIsDead();   
         updateShotsIcons();
+        collectExtraLife();
         
     }
     
@@ -79,6 +80,13 @@ public class Player2 extends Player
         
         int index = getLives();
         liveItems[index].getImage().setTransparency(120);
+    }
+    
+    private void addHeart(){
+        if(addLive()){
+            int index = getLives() - 1;
+            liveItems[index].getImage().setTransparency(255);
+        }
     }
     
     private void verifyIfIsDead(){
@@ -143,5 +151,14 @@ public class Player2 extends Player
             nave.endSpaceshipActivity();  
         }
         
+    }
+    
+    private void collectExtraLife(){
+        if(nave != null){
+            if(nave.verifyIfCollectedLife()){
+                addHeart();
+            }
+        }
+    
     }
 }

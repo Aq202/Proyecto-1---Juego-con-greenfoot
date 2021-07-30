@@ -256,12 +256,33 @@ public class Spaceship extends Actor
         return isDead;
     }
     
+    public boolean getSpaceshipState(){
+        return !(isDestroyed || isDead || blockSpaceshipActivity);
+    }
+    
     public int getShotsAvailable(){
         return shotsAvailable;
     }
     
     public void endSpaceshipActivity(){
         blockSpaceshipActivity = true;
+    }
+    
+    public boolean verifyIfCollectedLife(){
+        if(getSpaceshipState()){
+            List lifes = getNeighbours(45, true, ExtraLife.class);
+                if(lifes.size() > 0){
+                    System.out.println("3");
+                    for(int i = 0; i < lifes.size(); i++){
+                        
+                        ExtraLife life = (ExtraLife)lifes.get(i);
+                        getWorld().removeObject(life);               
+                    }
+                    return true;
+                    
+                }
+        }
+        return false;
     }
     
     public void act(){

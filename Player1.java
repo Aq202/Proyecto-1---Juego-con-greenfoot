@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
 
 /**
  * Write a description of class Player1 here.
@@ -23,6 +24,7 @@ public class Player1 extends Player
         initialize();
         verifyIfIsDead();  
         updateShotsIcons();
+        collectExtraLife();
         
     }
     
@@ -73,6 +75,13 @@ public class Player1 extends Player
         
         int index = getLives();
         liveItems[index].getImage().setTransparency(120);
+    }
+    
+    private void addHeart(){
+        if(addLive()){
+            int index = getLives() - 1;
+            liveItems[index].getImage().setTransparency(255);
+        }
     }
     
     private void verifyIfIsDead(){
@@ -139,6 +148,15 @@ public class Player1 extends Player
             nave.endSpaceshipActivity();  
         }
         
+    }
+    
+    private void collectExtraLife(){
+        if(nave != null){
+            if(nave.verifyIfCollectedLife()){
+                addHeart();
+            }
+        }
+    
     }
     
 }
