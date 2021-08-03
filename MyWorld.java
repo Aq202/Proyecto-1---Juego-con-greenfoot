@@ -27,12 +27,12 @@ public class MyWorld extends World
     //asteroids timer
     private final int defaultAsteroidsTimer = 2500;
     private int asteroidsTimer = defaultAsteroidsTimer;
-    private final int maxAsteroids = 6;
+    private final int maxAsteroids = 7;
     
     public MyWorld()
     {    
         
-        super(800, 600, 1); 
+        super(1000, 700, 1); 
     }
     
     public void act(){
@@ -90,6 +90,8 @@ public class MyWorld extends World
 
             }else if(rematchOption){
                 rematchOption = false;
+                player1 = null;
+                player2 = null;
                 clearWorld();
                 if(rematch.rematchGame()){
                     startGame();
